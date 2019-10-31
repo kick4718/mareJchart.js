@@ -3,24 +3,24 @@ function Chart(ctx, data){
     this.canvasHei = ctx.getAttribute("height");
     this.ctx = ctx;
     this.data = data;
-    this.drawStick = function() {
-        console.log("stick OK");
-        let stickSize = this.canvasHei / 10;
-        let stickGap = stickSize / 2;
-        this.ctx.setAttribute("width", (this.data.datasets.data.length * (stickSize + stickGap) + stickGap + 1) * 2);
+    this.drawBar = function() {
+        console.log("bar OK");
+        let barSize = this.canvasHei / 10;
+        let barGap = barSize / 2;
+        this.ctx.setAttribute("width", (this.data.datasets.data.length * (barSize + barGap) + barGap + 1) * 2);
         let canvasWid = this.ctx.getAttribute("width");
-        let maxSize = this.canvasHei - stickSize;
+        let maxSize = this.canvasHei - barSize;
         this.ctx = this.ctx.getContext("2d");
 
 
         /* 기준 선 그리기 */
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = "#333333";
-        this.ctx.moveTo(stickGap, stickSize);
-        this.ctx.lineTo(stickGap, this.canvasHei - stickSize);
+        this.ctx.moveTo(barGap, barSize);
+        this.ctx.lineTo(barGap, this.canvasHei - barSize);
 
-        this.ctx.moveTo(stickGap, this.canvasHei - stickSize);
-        this.ctx.lineTo(canvasWid - stickGap, this.canvasHei - stickSize);
+        this.ctx.moveTo(barGap, this.canvasHei - barSize);
+        this.ctx.lineTo(canvasWid - barGap, this.canvasHei - barSize);
         this.ctx.stroke();
 
         /* 그래프 그리기 */
@@ -38,10 +38,10 @@ function Chart(ctx, data){
         while(i < this.data.datasets.data.length) {
             this.ctx.fillStyle = this.data.datasets.backgroundColor[i];
             this.ctx.fillRect(
-                (stickSize * i) + (stickGap * (i+1)) * 3,
-                (maxSize + stickSize) - (maxSize * (this.data.datasets.data[i] / maxValue)),
-                stickSize,
-                maxSize - stickSize - (maxSize - (maxSize * (this.data.datasets.data[i] / maxValue)))
+                (barSize * i) + (barGap * (i+1)) * 3,
+                (maxSize + barSize) - (maxSize * (this.data.datasets.data[i] / maxValue)),
+                barSize,
+                maxSize - barSize - (maxSize - (maxSize * (this.data.datasets.data[i] / maxValue)))
             );
 
             /* 데이터 이름 출력 */
@@ -50,8 +50,8 @@ function Chart(ctx, data){
             this.ctx.textAlign = "center";
             this.ctx.fillText(
                 this.data.labels[i],
-                (stickSize * i) + (stickGap * (i+1)) * 3 + stickGap,
-                this.canvasHei - stickSize + 15
+                (barSize * i) + (barGap * (i+1)) * 3 + barGap,
+                this.canvasHei - barSize + 15
             );
 
             /* 데이터 퍼센트 출력 */
@@ -60,8 +60,8 @@ function Chart(ctx, data){
             this.ctx.textAlign = "center";
             this.ctx.fillText(
                 (this.data.datasets.data[i] / maxValue * 100).toFixed(2) + "%",
-                (stickSize * i) + (stickGap * (i+1)) * 3 + stickGap,
-                (maxSize + stickSize) - (maxSize * (this.data.datasets.data[i] / maxValue)) - 10
+                (barSize * i) + (barGap * (i+1)) * 3 + barGap,
+                (maxSize + barSize) - (maxSize * (this.data.datasets.data[i] / maxValue)) - 10
             );
 
             /* 데이터 값 출력 */
@@ -70,8 +70,8 @@ function Chart(ctx, data){
             this.ctx.textAlign = "center";
             this.ctx.fillText(
                 this.data.datasets.data[i],
-                (stickSize * i) + (stickGap * (i+1)) * 3 + stickGap,
-                (maxSize + stickSize) - (maxSize * (this.data.datasets.data[i] / maxValue)) + 20
+                (barSize * i) + (barGap * (i+1)) * 3 + barGap,
+                (maxSize + barSize) - (maxSize * (this.data.datasets.data[i] / maxValue)) + 20
             );
             i++;
         }
@@ -286,11 +286,11 @@ function Chart(ctx, data){
     }
 
     switch(this.data.type) {
-        case "stick" : this.drawStick(); break;
-        case "horizon_stick" : this.drawHorizonStick(); break;
-        case "circle" : this.drawCircle(); break;
+        case "bar" : this.drawBar(); break;
+        case "horizontalBar" : this.drawHorizontalBar(); break;
         case "doughnut" : this.drawDoughnut(); break;
         case "pie" : this.drawPie(); break;
+        case "circle" : this.drawCircle(); break;
         case "line" : this.drawLine(); break;
         default : break;
     }
